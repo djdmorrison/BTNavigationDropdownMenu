@@ -221,6 +221,7 @@ open class BTNavigationDropdownMenu: UIView {
     }
 
     open var didSelectItemAtIndexHandler: ((_ indexPath: Int) -> ())?
+    open var didSelectActionItem: (() -> ())?
     open var isShown: Bool!
 
     fileprivate weak var navigationController: UINavigationController?
@@ -355,6 +356,13 @@ open class BTNavigationDropdownMenu: UIView {
             self?.layoutSubviews()
         }
 
+        self.tableView.didSelectActionItem = { [weak self] () -> () in
+            guard let selfie = self else {
+                return
+            }
+            selfie.didSelectActionItem!()
+        }
+        
         // Add background view & table view to container view
         self.menuWrapper.addSubview(self.backgroundView)
         self.menuWrapper.addSubview(self.tableView)

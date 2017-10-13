@@ -28,6 +28,7 @@ class BTTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     // Public properties
     var configuration: BTConfiguration!
     var selectRowAtIndexPathHandler: ((_ indexPath: Int) -> ())?
+    var didSelectActionItem: (() -> ())?
     
     // Private properties
     var items: [String] = []
@@ -67,7 +68,7 @@ class BTTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.items.count
+        return self.items.count + 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -76,19 +77,33 @@ class BTTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = BTTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "Cell", configuration: self.configuration)
-        cell.textLabel?.text = self.items[(indexPath as NSIndexPath).row]
-        cell.checkmarkIcon.isHidden = ((indexPath as NSIndexPath).row == selectedIndexPath) ? false : true
+        
+        if indexPath.row != self.items.count {
+            cell.textLabel?.text = self.items[(indexPath as NSIndexPath).row]
+            cell.checkmarkIcon.isHidden = ((indexPath as NSIndexPath).row == selectedIndexPath) ? false : true
+        }
+        else{
+            cell.textLabel?.text = "+ Add City"
+            cell.textLabel?.textColor = UIColor.green
+            cell.checkmarkIcon.isHidden = true
+        }
+        
         return cell
     }
     
     // Table view delegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedIndexPath = (indexPath as NSIndexPath).row
-        self.selectRowAtIndexPathHandler!((indexPath as NSIndexPath).row)
-        self.reloadData()
-        let cell = tableView.cellForRow(at: indexPath) as? BTTableViewCell
-        cell?.contentView.backgroundColor = self.configuration.cellSelectionColor
-        cell?.textLabel?.textColor = self.configuration.selectedCellTextLabelColor
+        if indexPath.row != self.items.count {
+            selectedIndexPath = (indexPath as NSIndexPath).row
+            self.selectRowAtIndexPathHandler!((indexPath as NSIndexPath).row)
+            self.reloadData()
+            let cell = tableView.cellForRow(at: indexPath) as? BTTableViewCell
+            cell?.contentView.backgroundColor = self.configuration.cellSelectionColor
+            cell?.textLabel?.textColor = self.configuration.selectedCellTextLabelColor
+        }
+        else{
+            self.didSelectActionItem!()
+        }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -101,6 +116,7 @@ class BTTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if self.configuration.shouldKeepSelectedCellColor == true {
             cell.backgroundColor = self.configuration.cellBackgroundColor
+            cell.textLabel?.textColor = ((indexPath as NSIndexPath).row == selectedIndexPath) ? UIColor.white : UIColor.darkGray
             cell.contentView.backgroundColor = ((indexPath as NSIndexPath).row == selectedIndexPath) ? self.configuration.cellSelectionColor : self.configuration.cellBackgroundColor
         }
     }
