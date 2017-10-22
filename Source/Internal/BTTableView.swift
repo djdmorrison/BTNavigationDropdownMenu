@@ -97,13 +97,14 @@ class BTTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
             selectedIndexPath = (indexPath as NSIndexPath).row
             self.selectRowAtIndexPathHandler!((indexPath as NSIndexPath).row)
             self.reloadData()
-            let cell = tableView.cellForRow(at: indexPath) as? BTTableViewCell
-            cell?.contentView.backgroundColor = self.configuration.cellSelectionColor
-            cell?.textLabel?.textColor = self.configuration.selectedCellTextLabelColor
         }
         else{
             self.didSelectActionItem!()
         }
+
+        let cell = tableView.cellForRow(at: indexPath) as? BTTableViewCell
+        cell?.contentView.backgroundColor = self.configuration.cellSelectionColor
+        cell?.textLabel?.textColor = self.configuration.selectedCellTextLabelColor
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
