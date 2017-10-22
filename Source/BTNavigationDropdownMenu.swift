@@ -461,7 +461,7 @@ open class BTNavigationDropdownMenu: UIView {
         self.backgroundView.alpha = 0
 
         // Animation
-        self.tableView.frame.origin.y = -CGFloat(self.items.count) * self.configuration.cellHeight - 300
+        self.tableView.frame.origin.y = -CGFloat(self.items.count + 1) * self.configuration.cellHeight - 300
 
         // Reload data to dismiss highlight color of selected cell
         self.tableView.reloadData()
@@ -507,10 +507,10 @@ open class BTNavigationDropdownMenu: UIView {
             delay: 0,
             options: UIViewAnimationOptions(),
             animations: {
-                self.tableView.frame.origin.y = -CGFloat(self.items.count) * self.configuration.cellHeight - 300
+                self.tableView.frame.origin.y = -CGFloat(self.items.count + 1) * self.configuration.cellHeight - 300
                 self.backgroundView.alpha = 0 },
             completion: { _ in
-                if self.isShown == false && self.tableView.frame.origin.y == -CGFloat(self.items.count) * self.configuration.cellHeight - 300 {
+                if self.isShown == false && self.tableView.frame.origin.y == -CGFloat(self.items.count + 1) * self.configuration.cellHeight - 300 {
                     self.menuWrapper.isHidden = true
                 }
         })
