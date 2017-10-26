@@ -101,7 +101,7 @@ class BTTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
         else{
             self.didSelectActionItem!()
         }
-
+        
         let cell = tableView.cellForRow(at: indexPath) as? BTTableViewCell
         cell?.contentView.backgroundColor = self.configuration.cellSelectionColor
         cell?.textLabel?.textColor = self.configuration.selectedCellTextLabelColor

@@ -311,7 +311,7 @@ open class BTNavigationDropdownMenu: UIView {
         self.addSubview(self.menuButton)
 
         self.menuTitle = UILabel(frame: frame)
-        self.menuTitle.text = titleToDisplay
+        self.menuTitle.text = titleToDisplay.components(separatedBy: ", ")[0]
         self.menuTitle.textColor = self.menuTitleColor
         self.menuTitle.font = self.configuration.navigationBarTitleFont
         self.menuTitle.textAlignment = self.configuration.cellTextLabelAlignment
@@ -471,7 +471,7 @@ open class BTNavigationDropdownMenu: UIView {
         UIView.animate(
             withDuration: self.configuration.animationDuration * 1.5,
             delay: 0,
-            usingSpringWithDamping: 0.7,
+            usingSpringWithDamping: 1,
             initialSpringVelocity: 0.5,
             options: [],
             animations: {
@@ -493,7 +493,7 @@ open class BTNavigationDropdownMenu: UIView {
         UIView.animate(
             withDuration: self.configuration.animationDuration * 1.5,
             delay: 0,
-            usingSpringWithDamping: 0.7,
+            usingSpringWithDamping: 1,
             initialSpringVelocity: 0.5,
             options: [],
             animations: {
@@ -525,7 +525,7 @@ open class BTNavigationDropdownMenu: UIView {
     }
     
     func setMenuTitle(_ title: String) {
-        self.menuTitle.text = title
+        self.menuTitle.text = title.components(separatedBy: ", ")[0]
     }
     
     @objc func menuButtonTapped(_ sender: UIButton) {
